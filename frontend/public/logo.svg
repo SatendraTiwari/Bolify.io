@@ -1,0 +1,128 @@
+<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Wood texture gradient for hammer handle -->
+    <linearGradient id="woodGrain" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8B572A" />
+      <stop offset="25%" stop-color="#9E6938" />
+      <stop offset="50%" stop-color="#8B572A" />
+      <stop offset="75%" stop-color="#A06B35" />
+      <stop offset="100%" stop-color="#8B572A" />
+    </linearGradient>
+    
+    <!-- Glow effect for impact -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Auction Block/Podium -->
+  <g id="auctionBlock">
+    <rect x="70" y="230" width="160" height="25" rx="3" fill="#0A4958">
+      <!-- Flash animation when hammer hits -->
+      <animate id="blockFlash" attributeName="fill" values="#0A4958;#1C7D95;#0A4958" dur="0.4s" begin="hammerDown.end-0.1s" repeatCount="1" calcMode="spline" keySplines="0.42 0 0.58 1" />
+    </rect>
+    <rect x="90" y="210" width="120" height="20" rx="2" fill="#0A4958" />
+    
+    <!-- Sound wave circles that expand from impact point -->
+    <circle cx="150" cy="210" r="0" stroke="#ffffff" stroke-width="1" fill="none" opacity="0">
+      <animate id="soundWave1" attributeName="r" values="0;40" dur="0.8s" begin="hammerDown.end-0.1s" repeatCount="1" calcMode="spline" keySplines="0 0.5 0.5 1" />
+      <animate attributeName="opacity" values="0.7;0" dur="0.8s" begin="hammerDown.end-0.1s" repeatCount="1" calcMode="spline" keySplines="0 0.5 0.5 1" />
+      <animate attributeName="stroke-width" values="2;0.2" dur="0.8s" begin="hammerDown.end-0.1s" repeatCount="1" />
+    </circle>
+    <circle cx="150" cy="210" r="0" stroke="#ffffff" stroke-width="1" fill="none" opacity="0">
+      <animate attributeName="r" values="0;25" dur="0.6s" begin="hammerDown.end" repeatCount="1" calcMode="spline" keySplines="0 0.5 0.5 1" />
+      <animate attributeName="opacity" values="0.5;0" dur="0.6s" begin="hammerDown.end" repeatCount="1" calcMode="spline" keySplines="0 0.5 0.5 1" />
+      <animate attributeName="stroke-width" values="3;0.5" dur="0.6s" begin="hammerDown.end" repeatCount="1" />
+    </circle>
+  </g>
+  
+  <!-- Realistic Hammer Group -->
+  <g id="hammer">
+    <!-- Hammer Handle -->
+    <g id="handle">
+      <rect x="157" y="120" width="16" height="120" rx="5" fill="url(#woodGrain)" />
+      
+      <!-- Wood grain detail -->
+      <path d="M160 125 L163 225 M170 125 L167 225" stroke="#6B4219" stroke-width="0.5" opacity="0.3" />
+      <path d="M161 130 L161 220 M173 130 L173 220" stroke="#A06B35" stroke-width="0.3" opacity="0.4" />
+      
+      <!-- Handle grip -->
+      <rect x="154" y="225" width="22" height="15" rx="3" fill="#6B4219" />
+    </g>
+    
+    <!-- Hammer Head - more realistic with bevels -->
+    <g id="hammerHead">
+      <!-- Main hammer head -->
+      <rect x="120" y="80" width="90" height="40" rx="5" fill="#E85642" />
+      
+      <!-- Bevels and details -->
+      <path d="M120,80 L210,80 L210,83 L120,83 Z" fill="#F06753" />
+      <path d="M120,117 L210,117 L210,120 L120,120 Z" fill="#C43D2B" />
+      
+      <!-- Side faces for 3D effect -->
+      <path d="M210,80 L215,85 L215,117 L210,120 Z" fill="#D04835" />
+      <path d="M120,80 L115,85 L115,117 L120,120 Z" fill="#D04835" />
+      
+      <!-- Metal cap on ends -->
+      <rect x="115" y="85" width="5" height="32" fill="#B03825" opacity="0.8" />
+      <rect x="210" y="85" width="5" height="32" fill="#B03825" opacity="0.8" />
+    </g>
+    
+    <!-- Hammer Animation - using multiple animations for easing control -->
+    <animateTransform
+      id="hammerUp"
+      attributeName="transform"
+      type="rotate"
+      from="15 150 240"
+      to="-35 150 240"
+      dur="1.5s" 
+      begin="0s;hammerReset.end+0.8s"
+      fill="freeze"
+      calcMode="spline"
+      keySplines="0.4 0 0.6 1"
+    />
+    <animateTransform
+      id="hammerDown"
+      attributeName="transform"
+      type="rotate"
+      from="-35 150 240" 
+      to="18 150 240"
+      dur="0.3s"
+      begin="hammerUp.end"
+      fill="freeze"
+      calcMode="spline"
+      keySplines="0.25 0.1 0.25 1"
+    />
+    <animateTransform
+      id="hammerReset"
+      attributeName="transform"
+      type="rotate"
+      from="18 150 240" 
+      to="15 150 240"
+      dur="0.3s"
+      begin="hammerDown.end+0.2s"
+      fill="freeze"
+      calcMode="spline"
+      keySplines="0 0 0.58 1"
+    />
+  </g>
+
+  <!-- Impact flash effect -->
+  <circle cx="150" cy="210" r="15" fill="#ffffff" opacity="0" filter="url(#glow)">
+    <animate attributeName="opacity" values="0;0.7;0" dur="0.3s" begin="hammerDown.end-0.1s" repeatCount="1" calcMode="spline" keySplines="0.42 0 0.58 1" />
+  </circle>
+  
+  <!-- Impact lines -->
+  <g opacity="0">
+    <line x1="135" y1="205" x2="145" y2="195" stroke="#ffffff" stroke-width="1" />
+    <line x1="140" y1="205" x2="155" y2="195" stroke="#ffffff" stroke-width="1" />
+    <line x1="150" y1="205" x2="165" y2="193" stroke="#ffffff" stroke-width="1" />
+    <line x1="160" y1="205" x2="170" y2="195" stroke="#ffffff" stroke-width="1" />
+    <animate attributeName="opacity" values="0;1;0" dur="0.4s" begin="hammerDown.end-0.1s" repeatCount="1" calcMode="spline" keySplines="0.42 0 0.58 1" />
+  </g>
+  
+  <!-- Small decorative elements -->
+  <circle cx="90" cy="160" r="8" fill="#E85642" opacity="0.7" />
+  <circle cx="70" cy="180" r="5" fill="#E85642" opacity="0.5" />
+</svg>
