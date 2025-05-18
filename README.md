@@ -1,4 +1,7 @@
-# Auction Platform Project
+# Auction Platform Project Logo: 
+
+![image](https://github.com/user-attachments/assets/79f5fe3c-07cd-4bf2-ae56-1f407264fb3e)
+
 
 ## Overview
 This project is a full-stack auction platform application that allows users to create auctions, place bids, view auction details, and manage their profiles. It includes features for commission submission, dashboards for users and super admins, and various utility components.
@@ -69,15 +72,30 @@ To add screenshots of the UI in this README:
 1. Place your screenshot images inside the `frontend/public/` directory (or any accessible folder).
 2. Reference the images here using Markdown syntax:
 
-```markdown
-![Dashboard](frontend/public/screenshots/dashboard.png)
-```
 
 Example:
 
-![Dashboard](frontend/public/screenshots/dashboard.png)
+home : 
+![image](https://github.com/user-attachments/assets/78e673cf-1baa-468c-8eb1-8d3debee4393)
 
-![image](https://github.com/user-attachments/assets/e3ed9e4a-4493-4529-95f9-0b72b6c38f32)
+
+signup : 
+
+![image](https://github.com/user-attachments/assets/a4f83173-9883-42c4-97bd-6bc794fe4791)
+
+
+Dashboard : 
+
+01
+![image](https://github.com/user-attachments/assets/96bbbbdc-e84b-4874-9053-5b96e5c7e525)
+
+02
+
+![image](https://github.com/user-attachments/assets/09519ab1-9b24-4d9a-a999-80e893c8ecac)
+
+02
+![image](https://github.com/user-attachments/assets/192e125c-e9b0-4c36-b550-221f283b0288)
+
 
 
 (Add your actual screenshots in the specified folder and update the paths accordingly.)
@@ -114,3 +132,5 @@ Example:
 This project provides a comprehensive auction platform with a modern React frontend and a robust Express backend. It supports user authentication, auction management, bidding, and administrative dashboards.
 
 For any issues or contributions, please open an issue or pull request.
+
+
