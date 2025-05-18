@@ -77,6 +77,9 @@ Example:
 
 ![Dashboard](frontend/public/screenshots/dashboard.png)
 
+![image](https://github.com/user-attachments/assets/e3ed9e4a-4493-4529-95f9-0b72b6c38f32)
+
+
 (Add your actual screenshots in the specified folder and update the paths accordingly.)
 
 ## Technologies Used
