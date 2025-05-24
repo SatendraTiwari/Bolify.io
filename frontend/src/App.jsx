@@ -54,7 +54,7 @@ function App() {
           <Route path="/view/details/:id" element={<ViewAuctionDetails/>} />
           <Route path="/dashboard" element={<Dashboard />} />
           {/* <Route path="/contact" element={<Contact />} /> */}
-          {/* <Route path="/me" element={<UserProfile />} /> */}
+          <Route path="/profile/me" element={<UserProfile />} />
         </Routes>
       <ToastContainer position="top-right" />
     </Router>

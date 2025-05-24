@@ -169,6 +169,8 @@ export const republishItem = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler ("Starttime and Endtime for republish is mandatory."))
   }
 
+  console.log("Auction item found:", res.body);
+
   if (new Date(auctionItem.endTime) > Date.now()) {
     return next(
       new ErrorHandler("Auction is already active, cannot republish", 400)
@@ -178,6 +180,7 @@ export const republishItem = catchAsyncErrors(async (req, res, next) => {
     startTime: new Date(req.body.startTime),
     endTime: new Date(req.body.endTime),
   };
+  
   if (data.startTime < Date.now()) {
     return next(
       new ErrorHandler(
@@ -196,16 +199,24 @@ export const republishItem = catchAsyncErrors(async (req, res, next) => {
     );
   }
 
+  if (auctionItem.highestBidder) {
+    const highestBidder = await User.findById(auctionItem.highestBidder);
+    highestBidder.moneySpent -= auctionItem.currentBid;
+    highestBidder.auctionsWon -= 1;
+    highestBidder.save();
+  }
+
   data.bids = [];
   data.commissionCalculated = false;
   data.currentBid = 0;
   data.highestBidder = null;
-  auctionItem = await Auction.findByIdAndUpdate(id, data, {
+  auctionItem = await Auction.findByIdAndUpdate(id, {$set : data}, {
     new: true,
     runValidators: true,
-    useFindAndModify: false,
+    useFindAndModify: true,
   });
 
+  console.log("Auction item updated:", auctionItem);
   await Bid.deleteMany({ auctionItem: auctionItem._id });
 
   

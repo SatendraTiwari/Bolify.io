@@ -14,45 +14,46 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { auctionData } from '../../data';
 
 // Sample bidders data (in real app, this would come from API)
-const auctionBidders = [
-  {
-    _id: 1,
-    username: "jonny",
-    moneySpant: 15600,
-    auctionWin: 2,
-    profileImage: { url: 'https://picsum.photos/200/600' },
-  },
-  {
-    _id: 2,
-    username: "alibi",
-    moneySpant: 15500,
-    auctionWin: 2,
-    profileImage: { url: 'https://picsum.photos/200/700' },
-  },
-  {
-    _id: 3,
-    username: "mark",
-    moneySpant: 15000,
-    auctionWin: 2,
-    profileImage: { url: 'https://picsum.photos/200/800' },
-  },
-  {
-    _id: 4,
-    username: "anaya",
-    moneySpant: 15000,
-    auctionWin: 2,
-    profileImage: { url: 'https://picsum.photos/200/900' },
-  },
-];
+// const auctionBidders = [
+//   {
+//     _id: 1,
+//     username: "jonny",
+//     moneySpant: 15600,
+//     auctionWin: 2,
+//     profileImage: { url: 'https://picsum.photos/200/600' },
+//   },
+//   {
+//     _id: 2,
+//     username: "alibi",
+//     moneySpant: 15500,
+//     auctionWin: 2,
+//     profileImage: { url: 'https://picsum.photos/200/700' },
+//   },
+//   {
+//     _id: 3,
+//     username: "mark",
+//     moneySpant: 15000,
+//     auctionWin: 2,
+//     profileImage: { url: 'https://picsum.photos/200/800' },
+//   },
+//   {
+//     _id: 4,
+//     username: "anaya",
+//     moneySpant: 15000,
+//     auctionWin: 2,
+//     profileImage: { url: 'https://picsum.photos/200/900' },
+//   },
+// ];
 
 const ViewAuctionDetails = () => {
   const { id } = useParams();
-  const { loading, auctionDetail } = useSelector((state) => state.auction);
+  const { loading, auctionDetail,auctionBidders,allAuctions } = useSelector((state) => state.auction);
+  console.log(auctionDetail);
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
 
   // Get related items from auction data, excluding current auction
-  const relatedItems = auctionData.filter(auction => auction._id != id).slice(0, 4);
+  const relatedItems = allAuctions.filter(auction => auction._id != id).slice(0, 4);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -62,6 +63,7 @@ const ViewAuctionDetails = () => {
   const [bidAmount, setBidAmount] = useState('');
 
   // Check authentication and redirect if needed
+
   useEffect(() => {
     if(!isAuthenticated || user?.role !== "Auctioneer"){
       navigate('/');
@@ -277,7 +279,7 @@ const ViewAuctionDetails = () => {
                     <div>
                       <p className="text-sm text-gray-500">Starting Bid</p>
                       <p className="text-2xl font-bold text-[#d6482b]">
-                      &#8377; {auctionDetail.startingBid?.toLocaleString() || '0'}
+                      &#8377; {auctionDetail.startingBid || '0'}
                       </p>
                     </div>
                     
@@ -285,8 +287,8 @@ const ViewAuctionDetails = () => {
                       <p className="text-sm text-gray-500">Current Bid</p>
                       <p className="text-2xl font-bold text-green-600">
                       &#8377; {auctionBidders && auctionBidders.length > 0 
-                          ? auctionBidders[0].moneySpant.toLocaleString() 
-                          : auctionDetail.startingBid?.toLocaleString() || '0'
+                          ? auctionBidders[0].amount
+                          : auctionDetail.startingBid || '0'
                         }
                       </p>
                     </div>
@@ -365,7 +367,7 @@ const ViewAuctionDetails = () => {
                       <div className="flex items-center gap-3">
                         <div className="relative">
                           <img
-                            src={bidder.profileImage.url}
+                            src={bidder.profileImage}
                             alt={bidder.username}
                             className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm"
                           />
@@ -388,7 +390,7 @@ const ViewAuctionDetails = () => {
                           index === 1 ? 'text-blue-600' : 
                           index === 2 ? 'text-amber-600' : 'text-gray-600'
                         }`}>
-                          ${bidder.moneySpant.toLocaleString()}
+                          ${bidder.amount}
                         </p>
                         <p className="text-xs text-gray-500">
                           {index === 0 ? 'Highest Bid' : `Bid #${index + 1}`}

@@ -6,7 +6,7 @@ import { generateToken } from "../utils/jwtToken.js";
 
 export const register = catchAsyncErrors(async (req, res, next) => {
   let cloudinaryResponse = null;
-  console.log("Received files:", req.files);
+
   if (req.files && req.files.profileImage) {
     const { profileImage } = req.files;
 
@@ -46,20 +46,6 @@ export const register = catchAsyncErrors(async (req, res, next) => {
     paypalEmail,
   } = req.body;
 
-  console.log(
-    "Received data:",
-    userName,
-    email,
-    password,
-    phone,
-    address,
-    role,
-    bankAccountNumber,
-    bankAccountName,
-    bankName,
-    razorpayId,
-    paypalEmail
-  );
 
   if (!userName || !email || !phone || !password || !address || !role) {
     return next(new ErrorHandler("Please fill full form", 400));
@@ -124,7 +110,6 @@ export const register = catchAsyncErrors(async (req, res, next) => {
 
 export const login = catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log("Login data:", email, password);
   if (!email || !password) {
     return next(new ErrorHandler("Please fill full form."));
   }
@@ -170,3 +155,68 @@ export const fetchLeaderboard = catchAsyncErrors(async (req, res, next) => {
     leaderboard,
   });
 });
+
+
+export const editProfile = catchAsyncErrors(async (req, res, next) => {
+  const user = req.user;
+  const { userName, email, phone, address } = req.body;
+  console.log("User profile:", userName);
+
+  if (!userName || !email || !phone || !address) {
+    return next(new ErrorHandler("Please fill full form."));
+  }
+
+  const cloudinaryResponse = null;
+
+   if (req.files && req.files.profileImage) {
+    const { profileImage } = req.files;
+
+    const allowedFormats = ["image/png", "image/jpeg", "image/webp"];
+    if (!allowedFormats.includes(profileImage.mimetype)) {
+      return next(new ErrorHandler("File format not supported", 400));
+    }
+
+    cloudinaryResponse = await cloudinary.uploader.upload(
+      profileImage.tempFilePath,
+      {
+        folder: "MERN_AUCTION_PLATFORM_USERS",
+      }
+    );
+    if (!cloudinaryResponse || cloudinaryResponse.error) {
+      console.error(
+        "Cloudinary error:",
+        cloudinaryResponse.error || "Unknown cloudinary error"
+      );
+      return next(
+        new ErrorHandler("Failed to upload profile image to cloudinary", 500)
+      );
+    }
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    user._id,
+    {
+      userName,
+      email,
+      phone,
+      address,
+      profileImage: cloudinaryResponse
+      ? {
+          public_id: cloudinaryResponse.public_id,
+          url: cloudinaryResponse.secure_url,
+        }
+      : null,
+    },
+    { new: true }
+  );
+
+  if (!updatedUser) {
+    return next(new ErrorHandler("Failed to update profile.", 500));
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Profile updated successfully.",
+    user: updatedUser,
+  });
+})

@@ -16,7 +16,7 @@ const FeaturedAuctions = () => {
 
   return (
     <> {
-      allAuctions.length == 0 ? (
+      allAuctions?.length == 0 ? (
       <>
           <div className=' font-semibold text-center md:text-xl'>Featured Auction is not avaiable</div>
       </>
@@ -24,7 +24,7 @@ const FeaturedAuctions = () => {
           <section className='my-8'>
             <div className='flex-wrap  gap-6 md:w-full md:h-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-4 m-4'>
               {
-                allAuctions.slice(0, 8).map(element => {
+                allAuctions?.slice(0, 8).map(element => {
                   return (
                     <Card
                       key={element._id}

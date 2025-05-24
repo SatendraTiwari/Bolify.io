@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import Card from '@/custom-components/Card';
 import { useDispatch, useSelector } from 'react-redux';
 import { RiAuctionFill, RiTimeLine, RiCalendarEventLine } from 'react-icons/ri';
-import { auctionData } from '../../../data';
-import CardSilder from '@/custom-components/CardSilder';
 import { getAllAuctionItems } from '@/store/slice/auctionSlice';
 import { Link } from 'react-router-dom';
 
@@ -19,9 +17,9 @@ const UpcomingAuctions = () => {
   function mostExpensiveAuction (){
     let maxStartBid = 0;
     let prime;
-    for(let i = 0; i < allAuctions.length; i++){
-      if(allAuctions[i].startingBid > maxStartBid && allAuctions.startTime < new Date()) {
-        maxStartBid = allAuctions[i].startingBid;
+    for(let i = 0; i < allAuctions?.length; i++){
+      if(allAuctions[i]?.startingBid > maxStartBid && allAuctions?.startTime < new Date()) {
+        maxStartBid = allAuctions[i]?.startingBid;
         prime = allAuctions[i];
       }
     }
@@ -145,7 +143,7 @@ const UpcomingAuctions = () => {
       
       {/* Auction Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 ">
-        {allAuctions.map((auction) => (
+        {allAuctions?.map((auction) => (
           <div 
             key={auction._id}
             className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 "

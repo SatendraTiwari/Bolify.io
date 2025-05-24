@@ -27,7 +27,7 @@ export const postCommissionProof = (data) => async (dispatch) => {
     dispatch(commissionSlice.actions.postCommissionProofRequest());
     console.log()
     try {
-        const response = axios.post("http://localhost:8000/api/v1/commission/proof", data,{
+        const response = axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/commission/proof`, data,{
             withCredentials: true,
             headers: {"Content-Type": "application/json"}
         })

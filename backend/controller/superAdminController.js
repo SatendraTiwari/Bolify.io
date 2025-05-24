@@ -178,7 +178,6 @@ export const monthlyRevenue = catchAsyncErrors(async (req,res,next) => {
     }
 
     const totalMouthlyRevenue = tranformDataToMonthArray(payments)
-    console.log(totalMouthlyRevenue);
 
     res.status(200).json({
         success: true,

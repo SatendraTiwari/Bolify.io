@@ -38,7 +38,7 @@ const Home = () => {
 
   return (
     <>
-      <section className="section">
+      <section className="section animate-slidUp transition-all duration-500">
         {/* Hero Section */}
         <div className="pt-20 px-5 max-w-7xl">
           <div className="flex flex-col items-start md:flex-row md:items-center justify-between">
@@ -144,7 +144,7 @@ const Home = () => {
           </div>
 
           {/* Call to Action */}
-          <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-8 my-16 text-center shadow-xl animate-fadeIn transition-all duration-500">
+          <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-8 my-16 text-center shadow-xl animate-slidUp transition-all duration-500">
             <h2 className="text-3xl font-bold text-white mb-4">Ready to Start Bidding?</h2>
             <p className="text-white text-lg mb-6 max-w-lg mx-auto">Join thousands of bidders who find unique items at great prices every day.</p>
 

@@ -7,42 +7,41 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { auctionData } from '../../data';
 import { placeBid } from '@/store/slice/bidSlice';
 
-const auctionBidderss = [
-  {
-    _id: 1,
-    username: "jonny",
-    moneySpant: 15000,
-    auctionWin: 2,
-    profileImage: { url: 'https://picsum.photos/200/600' },
-  },
-  {
-    _id: 2,
-    username: "alibi",
-    moneySpant: 15000,
-    auctionWin: 2,
-  },
-  {
-    _id: 3,
-    username: "mark",
-    moneySpant: 15000,
-    auctionWin: 2,
-    profileImage: { url: 'https://picsum.photos/200/800' },
-  },
-  {
-    _id: 4,
-    username: "anaya",
-    moneySpant: 15000,
-    auctionWin: 2,
-    profileImage: { url: 'https://picsum.photos/200/900' },
-  },
-];
+// const auctionBidderss = [
+//   {
+//     _id: 1,
+//     username: "jonny",
+//     moneySpant: 15000,
+//     auctionWin: 2,
+//     profileImage: { url: 'https://picsum.photos/200/600' },
+//   },
+//   {
+//     _id: 2,
+//     username: "alibi",
+//     moneySpant: 15000,
+//     auctionWin: 2,
+//   },
+//   {
+//     _id: 3,
+//     username: "mark",
+//     moneySpant: 15000,
+//     auctionWin: 2,
+//     profileImage: { url: 'https://picsum.photos/200/800' },
+//   },
+//   {
+//     _id: 4,
+//     username: "anaya",
+//     moneySpant: 15000,
+//     auctionWin: 2,
+//     profileImage: { url: 'https://picsum.photos/200/900' },
+//   },
+// ];
 
 const AuctionItem = () => {
   const { id } = useParams();
-  const { loading, auctionDetail, auctionBidders } = useSelector((state) => state.auction);
 
+  const { loading, auctionDetail, auctionBidders } = useSelector((state) => state.auction);
   const {message,} = useSelector((state) => state.bid);
-  console.log(message);
 
   //auction detail are object so convert to array and find the auction by id
 
@@ -53,7 +52,8 @@ const AuctionItem = () => {
       : null;
 
 
-  const { isAuthenticated } = useSelector((state) => state.user);
+  const { isAuthenticated,user } = useSelector((state) => state.user);
+
   const { loginShow } = useSelector((state) => state.logShow);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -70,16 +70,13 @@ const AuctionItem = () => {
       navigate('/');
       dispatch(setShowLogin({loginShow : !loginShow}));
     }
-
     if(id) {
       dispatch(getAuctionDetail(id));
     }
-
-  }, [id,isAuthenticated,dispatch,navigate]);
+  }, [dispatch,id]);
 
   useEffect(() => {
     if (auctionDetails) {
-      console.log("Auction Details in Left time", auctionDetails);
       const interval = setInterval(() => {
         const now = new Date();
         const end = new Date(auctionDetails.endTime);
@@ -228,7 +225,7 @@ const AuctionItem = () => {
           {/* Right Column - Bidding Area */}
           <div className="lg:col-span-2">
             {/* Bid Form */}
-            <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+           {(user.role == "Bidder" || (user.role === "Auctioneer" && user._id !== auctionDetail.createdBy)) && <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
               <div className="bg-gradient-to-r from-[#d6482b] to-[#e96b4f] py-4 px-6">
                 <h2 className="text-white text-xl font-semibold">Place Your Bid</h2>
               </div>
@@ -273,21 +270,14 @@ const AuctionItem = () => {
                       className="w-full bg-[#d6482b] hover:bg-[#c03e25] text-white font-semibold py-3 px-6 rounded-lg transition-all"
                     >
                       Place Bid
-                    </button>
-                    
-                    {bidPlaced && (
-                      <div className="mt-4 p-3 bg-green-100 text-green-700 rounded-lg text-center">
-                        Your bid has been placed successfully!
-                      </div>
-                    )}
-                    
+                    </button>           
                     <p className="text-xs text-gray-500 mt-4 text-center">
                       By placing a bid, you agree to our terms and conditions
                     </p>
                   </form>
                 )}
               </div>
-            </div>
+            </div>}
             
             {/* Bidders List */}
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -296,13 +286,13 @@ const AuctionItem = () => {
               </div>
               
               <div className="divide-y">
-                {auctionBidderss && auctionBidderss.length > 0 && new Date(auctionDetails?.startTime) < Date.now() ? (
-                  auctionBidderss.map((bidder, index) => (
+                {auctionBidders && auctionBidders.length > 0 && new Date(auctionDetails?.startTime) < Date.now() ? (
+                  auctionBidders.map((bidder, index) => (
                     <div key={bidder._id} className="p-4 flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="relative">
                           <img 
-                            src={bidder.profileImage?.url} 
+                            src={bidder.profileImage} 
                             alt={bidder.username}
                             className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover border-2 border-white shadow-sm" 
                           />

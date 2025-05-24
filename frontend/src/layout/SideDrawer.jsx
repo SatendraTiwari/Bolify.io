@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store/slice/userSlice';
 import { setShowLogin, setSideBarShow } from '@/store/slice/loginShow';
 import { Link } from 'react-router-dom';
+import { User2Icon } from 'lucide-react';
 
 const SideDrawer = () => {
   const [show, setShow] = useState(false);
@@ -40,7 +41,7 @@ const SideDrawer = () => {
 
 
   useEffect(() => {
-    if(screenWidth <= 1022) toggleSidebarShow();
+    if (screenWidth <= 1022) toggleSidebarShow();
   }, [screenWidth])
 
 
@@ -48,18 +49,12 @@ const SideDrawer = () => {
   return (
     <>
       {/* Hamburger Button */}
-      {!sidebarShow ? (<div
-        onClick={toggleSidebarShow}
-        className='fixed right-5 top-5 z-50 bg-[#d6482b] text-white text-3xl p-2 rounded-full shadow-lg hover:bg-[#b33a24] transition-colors duration-300 '
+      { isAuthenticated && (<Link
+        to='/profile/me'
+        className='fixed right-5 bottom-4 z-50 bg-[#d6482b] text-white text-3xl p-2 rounded-full shadow-lg hover:bg-[#b33a24] transition-colors duration-300 '
       >
-        <GiHamburgerMenu />
-      </div>) : (
-        <div
-          onClick={toggleSidebarShow}
-          className='fixed right-5 top-5 z-50 bg-[#d6482b] text-white text-3xl p-2 rounded-full shadow-lg hover:bg-[#b33a24] transition-colors duration-300 '
-        >
-          <IoMdCloseCircleOutline />
-        </div>
+        <User2Icon />
+      </Link>
       )}
 
       {/* Sidebar Drawer */}

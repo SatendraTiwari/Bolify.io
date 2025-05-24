@@ -5,41 +5,12 @@ import { setShowLogin } from '@/store/slice/loginShow';
 
 const Leaderboard = () => {
   const { loading, leaderboard, isAuthenticated } = useSelector(state => state.user);
+
   const { loginShow } = useSelector((state) => state.logShow);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   // Sample data - in production use the Redux state
-  const auctionWin = [
-    {
-      _id: 1,
-      username: "jonny",
-      moneySpant: 15000,
-      auctionWin: 2,
-      profileImage: { url: 'https://picsum.photos/200/600' },
-    },
-    {
-      _id: 2,
-      username: "alibi",
-      moneySpant: 15000,
-      auctionWin: 2,
-      profileImage: { url: 'https://picsum.photos/200/700' },
-    },
-    {
-      _id: 3,
-      username: "mark",
-      moneySpant: 15000,
-      auctionWin: 2,
-      profileImage: { url: 'https://picsum.photos/200/800' },
-    },
-    {
-      _id: 4,
-      username: "anaya",
-      moneySpant: 15000,
-      auctionWin: 2,
-      profileImage: { url: 'https://picsum.photos/200/900' },
-    },
-  ];
 
   // Uncomment if you want to require authentication
   useEffect(() => {
@@ -108,7 +79,7 @@ const Leaderboard = () => {
                       </thead>
 
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {auctionWin.map((element, index) => (
+                        {leaderboard?.map((element, index) => (
                           <tr
                             key={element._id}
                             className={`${getRowStyle(index)} hover:bg-gray-50 transition-colors`}
@@ -140,7 +111,7 @@ const Leaderboard = () => {
                             <td className="py-4 px-6">
                               <div className="flex flex-col">
                                 <div className="text-base font-medium text-gray-900">
-                                  {element.moneySpant.toLocaleString()}
+                                  {element.moneySpant}
                                 </div>
                                 <div className="text-sm text-gray-500">Total bid amount</div>
                               </div>
@@ -167,7 +138,7 @@ const Leaderboard = () => {
                     </table>
                   </div>
 
-                  {auctionWin.length === 0 && (
+                  {leaderboard?.length === 0 && (
                     <div className="text-center py-16">
                       <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

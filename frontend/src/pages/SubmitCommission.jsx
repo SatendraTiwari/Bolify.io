@@ -43,6 +43,7 @@ const SubmitCommission = () => {
         formData.append('amount', amount);
         formData.append('comment', comment);
         console.log(formData);
+        
         dispatch(postCommissionProof(formData));
     };
 

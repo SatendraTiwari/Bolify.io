@@ -8,10 +8,11 @@ export const generateToken = (user, message, statusCode, res) => {
       ),
       httpOnly: true,
     })
+    .setHeader('Authorization', `Bearer ${token}`)
     .json({
       success: true,
       message,
       user,
       token,
-    });
+    })
 };

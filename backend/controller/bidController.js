@@ -45,6 +45,27 @@ export const placeBid = catchAsyncErrors(
           auctionItem.currentBid = amount;
       } else {
         const bidderDetail = await User.findById(req.user._id);
+
+        
+        const bidder = await User.findByIdAndUpdate(
+          req.user._id,
+          {
+            $inc: { moneySpent: amount },
+          },
+          { new: true }
+        );
+        if (!bidder) {
+          return next(new ErrorHandler("Bidder not found.", 404));
+        }
+        if (bidder.moneySpent < amount) {
+          return next(
+            new ErrorHandler("Insufficient balance to place bid.", 404)
+          );
+        }
+
+
+
+
         const bid = await Bid.create({
             amount,
             bidder: {

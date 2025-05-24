@@ -37,7 +37,6 @@ const LeaderboardPage = () => {
   ];
 
   const { leaderboard } = useSelector((state) => state.user);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -69,7 +68,7 @@ const LeaderboardPage = () => {
             </thead>
             
             <tbody className='divide-y divide-gray-200'>
-              {leaderboard.slice(0, 10).map((element, index) => (
+              {leaderboard?.slice(0, 10).map((element, index) => (
                 <tr 
                   key={element._id} 
                   className={`${index < 3 ? 'bg-opacity-10 ' + getBadgeColor(index).replace('bg-', 'bg-opacity-10 bg-') : ''} hover:bg-gray-50 transition-colors`}
@@ -86,8 +85,8 @@ const LeaderboardPage = () => {
                     <div className='flex items-center'>
                       <div className='flex-shrink-0 h-12 w-12 rounded-full overflow-hidden ring-2 ring-gray-200'>
                         <img 
-                          src={element.profileImage?.url} 
-                          alt={element.username}
+                          src={element?.profileImage?.url} 
+                          alt={element?.username}
                           className='h-full w-full object-cover' 
                         />
                       </div>
@@ -99,7 +98,7 @@ const LeaderboardPage = () => {
                   
                   <td className='py-4 px-6'>
                     <div className='text-base text-gray-900 font-medium'>
-                      {element.moneySpant.toLocaleString()}
+                      {element.moneySpant}
                     </div>
                   </td>
                   
@@ -117,7 +116,7 @@ const LeaderboardPage = () => {
           </table>
         </div>
         
-        {leaderboard.length === 0 && (
+        {leaderboard?.length === 0 && (
           <div className='text-center py-12'>
             <svg className='mx-auto h-12 w-12 text-gray-400' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
               <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' />

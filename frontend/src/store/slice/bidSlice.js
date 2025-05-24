@@ -36,7 +36,7 @@ export const placeBid = (id, data) => async(dispatch) => {
     dispatch(bidSlice.actions.bidRequest());
 
     try {
-        const response = await axios.post(`http://localhost:8000/api/v1/bid/place/${id}`, data, {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/bid/place/${id}`, data, {
             withCredentials: true,
             headers : {'Content-Type' : "application/json"} 
         })

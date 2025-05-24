@@ -99,6 +99,19 @@ const userSlice = createSlice({
             state.loading = false;
             state.leaderboard = [];
         },
+        // Edit Profile
+        editProfileRequest(state,action){
+            state.loading = true;
+            state.user = {};
+        },
+        editProfileSuccess(state,action){
+            state.loading = false;
+            state.user = action.payload;
+        },
+        editProfileFailed(state,action){
+            state.loading = false;
+            state.user = {};
+        },
 
         clearAllErrors(state, action) {
             state.user = state.user;
@@ -114,7 +127,7 @@ export const register = (data) => async(dispatch) => {
     dispatch(userSlice.actions.registerRequest());
 
     try {
-        const response = await axios.post("http://localhost:8000/api/v1/user/register", data,
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/register`, data,
             {
                 withCredentials: true,
                 headers: {"Content-Type": "multipart/form-data"}
@@ -134,7 +147,7 @@ export const register = (data) => async(dispatch) => {
 
 export const login = (userData) => async (dispatch) => {
     try {
-        const response = await axios.post("http://localhost:8000/api/v1/user/login", userData, {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/login`, userData, {
             withCredentials: true,
             headers:{"Content-Type" : "application/json"}
         }); // Adjust the endpoint as necessary
@@ -154,7 +167,7 @@ export const login = (userData) => async (dispatch) => {
 
 export const logout = () => async (dispatch) => {
     try {
-        const response = await axios.get("http://localhost:8000/api/v1/user/logout", { withCredentials: true });
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/logout`, { withCredentials: true });
         alert(response.data.message);
         dispatch(userSlice.actions.logoutSuccess());
         // dispatch(setShowLogin({ loginShow: false }));
@@ -172,7 +185,7 @@ export const fetchUser = () => async (dispatch) => {
     dispatch(userSlice.actions.fetchUserRequest());
 
     try {                             //profile url
-        const response = await axios.get("http://localhost:8000/api/v1/user/me", { withCredentials: true });
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/me`, { withCredentials: true });
 
         dispatch(userSlice.actions.fetchUserSuccess(response.data.user));
         toast.success(response.data.message);
@@ -190,7 +203,7 @@ export const fetchLeaderboard = () => async (dispatch) => {
     dispatch(userSlice.actions.fetchLeaderboardRequest());
     try {
 
-        const response = await axios.get("http://localhost:8000/api/v1/user/leaderboard",{
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/leaderboard`,{
             withCredentials : true,
         })
 
@@ -199,6 +212,27 @@ export const fetchLeaderboard = () => async (dispatch) => {
     } catch (error) {
         dispatch(userSlice.actions.fetchLeaderboardFailed());
         dispatch(userSlice.actions.clearAllErrors());
+    }
+}
+
+
+export const editProfile = (data) => async (dispatch) => {
+    dispatch(userSlice.actions.editProfileRequest());
+
+    try {
+        const respones = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/edit-profile`, data, {
+            withCredentials: true,
+            headers: {"Content-Type": "multipart/form-data"}
+        });
+        console.log(respones.data.user);
+        dispatch(userSlice.actions.editProfileSuccess(respones.data.user));
+        toast.success(respones.data.message);
+        dispatch(userSlice.actions.clearAllErrors());
+    } catch (error) {
+        dispatch(userSlice.actions.editProfileFailed());
+        toast.error(error.response.data.message);
+        dispatch(userSlice.actions.clearAllErrors());
+        
     }
 }
 
