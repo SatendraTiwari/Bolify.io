@@ -124,8 +124,6 @@ export const getMonthlyRevenue = () => async (dispatch) => {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/superadmin/monthlyincome`,{
             withCredentials: true,
         })
-        console.log(response.data.totalMouthlyRevenue);
-
         dispatch(superAdmin.actions.successForMonthlyRevenue(response.data.totalMouthlyRevenue));
         toast.success("Monthly revenue data fetched successfully.");
     } catch (error) {

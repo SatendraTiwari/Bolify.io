@@ -57,7 +57,7 @@ const CreateAuction = () => {
     formData.append("startTime", startTime);
     formData.append("endTime", endTime);
      await dispatch(createAuction(formData));
-     navigateTo('/my-auctions');
+     navigateTo('/view-my-auctions');
      
   };
 

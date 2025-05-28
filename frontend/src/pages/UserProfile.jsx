@@ -92,16 +92,13 @@ const UserProfile = () => {
   };
 
   const handleSaveProfile = async() => {
-    console.log('Saving profile data:', profileData);
-    await dispatch(editProfile(profileData)); 
-    if(!loading){
+    dispatch(editProfile(profileData)); 
       setShowEditProfile(false);
-    }
   };
 
   const handleSavePayment = () => {
     // Here you would typically dispatch an action to update payment info
-    console.log('Saving payment data:', paymentData);
+    
     // Add your API call or Redux action here
     setShowEditPayment(false);
     // You might want to show a success message here
@@ -120,7 +117,7 @@ const UserProfile = () => {
       <div className="max-w-5xl mx-auto">
         {/* Profile Header */}
         <div className="relative mb-8">
-          <div className="h-48 w-full bg-gradient-to-r from-orange-400 to-red-500 rounded-t-lg"></div>
+          <div className="h-48 w-full bg-gradient-to-r from-orange-400 to-red-500 rounded-t-lg z-0"></div>
           <div className="absolute -bottom-16 left-6 md:left-10">
             <div className="relative">
               <img

@@ -199,10 +199,8 @@ export const fetchUser = () => async (dispatch) => {
 };
 
 export const fetchLeaderboard = () => async (dispatch) => {
-    console.log("fetchLeaderboard");
     dispatch(userSlice.actions.fetchLeaderboardRequest());
     try {
-
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/leaderboard`,{
             withCredentials : true,
         })
@@ -224,7 +222,6 @@ export const editProfile = (data) => async (dispatch) => {
             withCredentials: true,
             headers: {"Content-Type": "multipart/form-data"}
         });
-        console.log(respones.data.user);
         dispatch(userSlice.actions.editProfileSuccess(respones.data.user));
         toast.success(respones.data.message);
         dispatch(userSlice.actions.clearAllErrors());

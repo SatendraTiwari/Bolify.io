@@ -18,7 +18,7 @@ const UpcomingAuctions = () => {
     let maxStartBid = 0;
     let prime;
     for(let i = 0; i < allAuctions?.length; i++){
-      if(allAuctions[i]?.startingBid > maxStartBid && allAuctions?.startTime < new Date()) {
+      if(allAuctions[i]?.startingBid > maxStartBid) {
         maxStartBid = allAuctions[i]?.startingBid;
         prime = allAuctions[i];
       }
