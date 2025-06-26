@@ -91,7 +91,7 @@ const LeaderboardPage = () => {
                         />
                       </div>
                       <div className='ml-4'>
-                        <div className='text-base font-medium text-gray-900'>{element.username}</div>
+                        <div className='text-base font-medium text-gray-900'>{element.userName}</div>
                       </div>
                     </div>
                   </td>

@@ -25,6 +25,34 @@ import { Link } from 'react-router-dom';
   ];
 
 
+  const teamMembers = [
+    {
+      id: 1,
+      name: "Satendra Sharma",
+      position: "Frontend Developer & Backend Developer",
+      image: "/api/placeholder/150/150"
+    },
+    {
+      id: 2,
+      name: "Rehan Khan",
+      position: "Frontend Developer & Designer",
+      image: "/api/placeholder/150/150"
+    },
+    {
+      id: 3,
+      name: "Mohmmad Rehan",
+      position: "Backend Developer",
+      image: "/api/placeholder/150/150"
+
+    },
+    {
+      id: 4,
+      name: "Garv Sukla",
+      position: "Full Stack Developer",
+      image: "/api/placeholder/150/150"
+    }
+  ]
+
 const About = () => {
 
 

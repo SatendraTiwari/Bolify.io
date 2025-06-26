@@ -125,6 +125,7 @@ export const getMonthlyRevenue = () => async (dispatch) => {
             withCredentials: true,
         })
         dispatch(superAdmin.actions.successForMonthlyRevenue(response.data.totalMouthlyRevenue));
+        console.log(response.data.totalMouthlyRevenue);
         toast.success("Monthly revenue data fetched successfully.");
     } catch (error) {
         dispatch(superAdminSlice.actions.failedForMonthlyRevenue());

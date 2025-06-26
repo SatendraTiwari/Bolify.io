@@ -3,19 +3,18 @@ import React, { useEffect, useState } from 'react';
 import { 
   FaChevronRight, 
   FaClock, 
-  FaGavel, 
   FaUser, 
   FaCalendarAlt,
-  FaInfoCircle,
   FaUserClock
 } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 
-const ViewAuctionDetails = () => {
+
+const ViewAuctionDetailsForSuperAdmin = () => {
   const { id } = useParams();
   const { loading, auctionDetail,auctionBidders,allAuctions } = useSelector((state) => state.auction);
-  console.log(auctionBidders);
+  console.log(auctionDetail);
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
 
@@ -32,7 +31,7 @@ const ViewAuctionDetails = () => {
   // Check authentication and redirect if needed
 
   useEffect(() => {
-    if(!isAuthenticated || user?.role !== "Auctioneer"){
+    if(!isAuthenticated || user?.role !== "Super Admin") {
       navigate('/');
     }
   }, [isAuthenticated, user, navigate]);
@@ -92,11 +91,6 @@ const ViewAuctionDetails = () => {
     }
   }, [auctionDetail]);
 
-  // Handle bid submission
-  const handleBidSubmit = (e) => {
-    e.preventDefault();
-    setIsBidModalOpen(false);
-  };
 
   // Check if auction is active
   const isAuctionActive = auctionDetail && new Date(auctionDetail.endTime) > Date.now();
@@ -172,6 +166,7 @@ const ViewAuctionDetails = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Image and Details */}
           <div className="lg:col-span-2 space-y-6">
+
             {/* Image Gallery */}
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
               <div className="relative bg-gray-50 h-80 md:h-96 flex justify-center items-center">
@@ -184,6 +179,7 @@ const ViewAuctionDetails = () => {
             </div>
 
             {/* Item Details */}
+            
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
               <div className="p-6">
                 <div className="flex justify-between items-start flex-wrap gap-2">
@@ -390,12 +386,12 @@ const ViewAuctionDetails = () => {
                     {relatedItems.slice(0, 3).map(item => (
                       <Link 
                         key={item._id} 
-                        to={`/view/details/${item._id}`}
+                        to={`/details/${item._id}`}
                         className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
                       >
                         <div className="w-16 h-16 bg-gray-100 rounded-md overflow-hidden flex-shrink-0">
                           <img 
-                            src={item.imgSrc?.url || '/public/logo.svg'} 
+                            src={item.image?.url} 
                             alt={item.title} 
                             className="w-full h-full object-contain"
                           />
@@ -423,7 +419,7 @@ const ViewAuctionDetails = () => {
                 {relatedItems.length > 3 && (
                   <div className="mt-4 text-center">
                     <Link 
-                      to="/view-my-auctions" 
+                      to="/dashboard" 
                       className="text-[#d6482b] hover:text-[#c23a1f] font-medium text-sm inline-flex items-center"
                     >
                       View All
@@ -433,103 +429,13 @@ const ViewAuctionDetails = () => {
                 )}
               </div>
             </div>
-            
-            {/* Auction Info */}
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-              <div className="p-4 bg-gray-50 border-b border-gray-100">
-                <h2 className="text-lg font-semibold text-gray-800">Auction Information</h2>
-              </div>
-              
-              <div className="p-4">
-                <div className="flex items-start mb-4">
-                  <FaInfoCircle className="text-[#d6482b] mt-1 mr-3 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-medium text-gray-800">Bidding Rules</h3>
-                    <p className="text-sm text-gray-600 mt-1">
-                      Bids are final and cannot be withdrawn. The highest bid at the end of the auction wins.
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <FaGavel className="text-[#d6482b] mt-1 mr-3 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-medium text-gray-800">After Winning</h3>
-                    <p className="text-sm text-gray-600 mt-1">
-                      Winners will be notified by email with payment instructions and next steps.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
       
       {/* Bid Modal */}
-      {isBidModalOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
-          <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center">
-            <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"></div>
-            
-            <div className="relative z-10 inline-block w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-medium text-gray-900">Place Your Bid</h3>
-                <button 
-                  onClick={() => setIsBidModalOpen(false)}
-                  className="text-gray-400 hover:text-gray-500"
-                >
-                  <span className="sr-only">Close</span>
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              
-              <form onSubmit={handleBidSubmit}>
-                <div className="mb-4">
-                  <label htmlFor="bidAmount" className="block text-sm font-medium text-gray-700 mb-1">
-                    Bid Amount (&#8377;100)
-                  </label>
-                  <div className="mt-1 relative rounded-md shadow-sm">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <span className="text-gray-500 sm:text-sm">$</span>
-                    </div>
-                    <input
-                      type="number"
-                      name="bidAmount"
-                      id="bidAmount"
-                      className="focus:ring-[#d6482b] focus:border-[#d6482b] block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
-                      placeholder="0.00"
-                      min={minimumBid}
-                      value={bidAmount}
-                      onChange={(e) => setBidAmount(e.target.value)}
-                      required
-                    />
-                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                      <span className="text-gray-500 sm:text-sm">INR</span>
-                    </div>
-                  </div>
-                  <p className="mt-2 text-xs text-gray-500">
-                    Minimum bid: ${minimumBid.toLocaleString()}
-                  </p>
-                </div>
-                
-                <div className="mt-6">
-                  <button
-                    type="submit"
-                    className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#d6482b] hover:bg-[#c23a1f] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#d6482b]"
-                  >
-                    Submit Bid
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
-export default ViewAuctionDetails;
+export default ViewAuctionDetailsForSuperAdmin;

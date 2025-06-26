@@ -2,7 +2,7 @@ import { deleteAuction, getMyAuctionItems } from '@/store/slice/auctionSlice';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { auctionData } from '../../data';
+
 import { FaClock, FaRegCalendarAlt } from 'react-icons/fa';
 import { MdDelete, MdOutlinePublish } from 'react-icons/md';
 import { Eye } from 'lucide-react';

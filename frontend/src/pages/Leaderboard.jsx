@@ -2,23 +2,27 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setShowLogin } from '@/store/slice/loginShow';
+import { setRedirectPaths } from '@/store/slice/userSlice';
 
 const Leaderboard = () => {
-  const { loading, leaderboard, isAuthenticated } = useSelector(state => state.user);
+  const { loading, leaderboard, isAuthenticated, redirectPath } = useSelector(state => state.user);
 
   const { loginShow } = useSelector((state) => state.logShow);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Sample data - in production use the Redux state
+  
 
-  // Uncomment if you want to require authentication
+
   useEffect(() => {
-    if(!isAuthenticated){
-      navigate('/');
-      dispatch(setShowLogin({loginShow : !loginShow}))
+    if (loading) return;
+
+    if (!isAuthenticated) {
+
+      dispatch(setShowLogin({ loginShow: true }));
+      navigate("/");
     }
-  },[isAuthenticated])
+  }, [isAuthenticated, loading, dispatch, navigate]);
 
   // Badge and styles based on position
   const getBadgeColor = (index) => {
@@ -97,12 +101,12 @@ const Leaderboard = () => {
                                 <div className="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden ring-2 ring-gray-200">
                                   <img
                                     src={element.profileImage?.url}
-                                    alt={element.username}
+                                    alt={element.userName}
                                     className="h-full w-full object-cover"
                                   />
                                 </div>
                                 <div className="ml-4">
-                                  <div className="text-base font-medium text-gray-900">{element.username}</div>
+                                  <div className="text-base font-medium text-gray-900">{element.userName}</div>
                                   <div className="text-sm text-gray-500">Member</div>
                                 </div>
                               </div>
@@ -111,7 +115,7 @@ const Leaderboard = () => {
                             <td className="py-4 px-6">
                               <div className="flex flex-col">
                                 <div className="text-base font-medium text-gray-900">
-                                  {element.moneySpant}
+                                  {element.moneySpent}
                                 </div>
                                 <div className="text-sm text-gray-500">Total bid amount</div>
                               </div>

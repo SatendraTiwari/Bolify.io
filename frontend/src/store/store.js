@@ -5,6 +5,7 @@ import logShowReducer from  './slice/loginShow'
 import auctionReducer from "./slice/auctionSlice";
 import bidReducer from "./slice/bidSlice"
 import superAdminResucer from './slice/superAdminSlice'
+import contactReducer from './slice/contactSlice'
 export const store = configureStore({
     reducer: {
         user: useReducer,
@@ -13,5 +14,6 @@ export const store = configureStore({
         auction : auctionReducer,
         bid : bidReducer,
         superAdmin : superAdminResucer,
+        contact: contactReducer,
     },
 })

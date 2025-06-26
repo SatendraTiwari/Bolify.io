@@ -20,7 +20,8 @@ import Headers from "./layout/Headers";
 import ViewAuctionDetails from "./pages/ViewAuctionDetails";
 import Dashboard from "./pages/dashboard/Dashboard";
 import UserProfile from "./pages/UserProfile";
-import { Contact } from "lucide-react";
+import Contact from "./pages/Contact"
+import ViewAuctionDetailsForSuperAdmin from "./pages/ViewAuctionDetailsForSuperAdmin";
 
 function App() {
   const dispatch = useDispatch(); 
@@ -52,8 +53,11 @@ function App() {
           <Route path="/create-auction" element={<CreateAuction/>} />
           <Route path="/view-my-auctions" element={<ViewMyAuctions/>} />
           <Route path="/view/details/:id" element={<ViewAuctionDetails/>} />
+
+          <Route path="/details/:id" element={<ViewAuctionDetailsForSuperAdmin/>} />
+
           <Route path="/dashboard" element={<Dashboard />} />
-          {/* <Route path="/contact" element={<Contact />} /> */}
+          <Route path="/contact" element={<Contact />} />
           <Route path="/profile/me" element={<UserProfile />} />
         </Routes>
       <ToastContainer position="top-right" />

@@ -8,7 +8,7 @@ import { errorMiddleware } from "./middlewares/error.js";
 import userRouter from "./router/userRoutes.js";
 import auctionItemRouter from "./router/auctionItemRoutes.js";
 import bidRouter from "./router/bidRoutes.js";
-
+import contactRouter from "./router/contactRoutes.js";
 
 import commissionRouter from "./router/commissionRoutes.js"
 import superAdminRouter from "./router/superAdminRoutes.js"
@@ -43,9 +43,12 @@ app.use("/api/v1/auctionitem", auctionItemRouter);
 app.use("/api/v1/bid", bidRouter);
 app.use('/api/v1/commission', commissionRouter);
 app.use('/api/v1/superadmin', superAdminRouter);
+app.use("/api/v1/contact", contactRouter)
 
 endedAuctionCron();
+
 verifyCommissionCron();
+
 connection();
 app.use(errorMiddleware);
 

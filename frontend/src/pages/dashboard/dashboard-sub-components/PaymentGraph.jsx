@@ -12,6 +12,7 @@ import {
   Filler
 } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
+import { useSelector } from "react-redux";
 
 // Register ChartJS components
 ChartJS.register(
@@ -32,7 +33,10 @@ const PaymentAnalytics = () => {
     12500, 18700, 14200, 21000, 19500, 22700, 
     26800, 23500, 21700, 25000, 28500, 32000
   ];
-  
+
+  // const {monthlyRevenue} = useSelector((state) => state.superAdmin);
+
+
   const [chartType, setChartType] = useState("bar");
   const [yearFilter, setYearFilter] = useState("current");
   const [viewMode, setViewMode] = useState("monthly");
